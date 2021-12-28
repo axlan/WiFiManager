@@ -2,6 +2,8 @@
 
 #include <EEPROM.h>
 
+static const WiFiManagerParameter DUMMY_PARAM = WiFiManagerParameter();
+ 
 void WifiManagerParamHelper::Init(uint16_t preamble, const ParamEntry* entries, size_t entries_len) {
   uint16_t read_buffer = 0;
 
@@ -53,11 +55,22 @@ void WifiManagerParamHelper::Init(uint16_t preamble, const ParamEntry* entries, 
   EEPROM.end();
 }
 
-const char* WifiManagerParamHelper::GetSetting(size_t idx) const {
+const char* WifiManagerParamHelper::GetSettingValue(size_t idx) const {
   if (idx < parameters_.size()) {
     return parameters_[idx].getValue();
   }
   return nullptr;
+}
+
+const WiFiManagerParameter& WifiManagerParamHelper::GetSettingParam(size_t idx) const {
+  if (idx < parameters_.size()) {
+    return parameters_[idx];
+  }
+  return DUMMY_PARAM;
+}
+
+size_t WifiManagerParamHelper::GetNumSettings() const {
+  return parameters_.size();
 }
 
 void WifiManagerParamHelper::OnParamCallback() {

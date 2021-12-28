@@ -16,7 +16,11 @@ public:
 
   void Init(uint16_t preamble, const ParamEntry *entries, size_t entries_len);
 
-  const char *GetSetting(size_t idx) const;
+  const char* GetSettingValue(size_t idx) const;
+
+  const WiFiManagerParameter& GetSettingParam(size_t idx) const;
+
+  size_t GetNumSettings() const;
 
 private:
   static constexpr size_t HEADER_SIZE = sizeof(uint16_t) * 2;
